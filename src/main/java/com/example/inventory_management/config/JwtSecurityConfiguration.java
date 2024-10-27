@@ -5,8 +5,10 @@ import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +28,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -41,16 +44,26 @@ import javax.sql.DataSource;
 @EnableMethodSecurity
 public class JwtSecurityConfiguration {
 
+  private final JwtRequestFilter jwtRequestFilter;
+
+ @Autowired
+    public JwtSecurityConfiguration(@Lazy JwtRequestFilter jwtRequestFilter) { // Use @Lazy here
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
+
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
                 .requestMatchers("/api/authenticate").permitAll() // Allow access to authentication endpoint
                 .anyRequest().authenticated())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .httpBasic(withDefaults()) // This allows basic auth
+            .httpBasic()
+            .and()
             .csrf().disable()
-            .headers().frameOptions().sameOrigin();
-    
+            .headers().frameOptions().sameOrigin()
+            .and()
+            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Register the filter here
+
         return http.build();
     }
     
