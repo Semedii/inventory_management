@@ -87,6 +87,16 @@ public class JwtSecurityConfiguration {
                     .build();
             jdbcUserDetailsManager.createUser(admin);
         }
+
+        if (!jdbcUserDetailsManager.userExists("user")) {
+            UserDetails user = User
+                    .withUsername("user")
+                    .password(passwordEncoder().encode("user_password")) // Ensure the password is encoded
+                    .roles("USER")
+                    .build();
+            jdbcUserDetailsManager.createUser(user);
+        }
+        
         return jdbcUserDetailsManager;
     }
 
