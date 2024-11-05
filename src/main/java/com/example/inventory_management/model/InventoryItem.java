@@ -12,8 +12,8 @@ public class InventoryItem {
     private Long id;
     private String name;
     private int quantity;
+    private double price;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -36,5 +36,13 @@ public class InventoryItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

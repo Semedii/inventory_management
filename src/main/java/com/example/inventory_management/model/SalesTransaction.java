@@ -21,12 +21,11 @@ public class SalesTransaction {
     @JoinColumn(name = "inventory_item_id")
     private InventoryItem inventoryItem;
 
-    private int requestedQuantity; // Quantity requested by the salesperson
-    private int approvedQuantity; // Quantity approved by the sales manager
+    private int requestedQuantity; 
+    private int approvedQuantity; 
     private Date transactionDate;
-    private boolean isApproved; // To mark if the request is approved
+    private boolean isApproved; 
 
-    // Constructors, getters, and setters
     public SalesTransaction() {}
 
     public SalesTransaction(SalesPerson salesperson, SalesManager salesManager, InventoryItem inventoryItem, int requestedQuantity, Date transactionDate, boolean isApproved) {
@@ -36,7 +35,7 @@ public class SalesTransaction {
         this.requestedQuantity = requestedQuantity;
         this.transactionDate = transactionDate;
         this.isApproved = isApproved;
-        this.approvedQuantity = 0; // Default value
+        this.approvedQuantity = 0; 
     }
 
     public Long getId() {

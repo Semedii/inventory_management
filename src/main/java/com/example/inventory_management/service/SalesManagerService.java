@@ -25,11 +25,10 @@ public class SalesManagerService {
         return salesManagerRepository.findById(id).orElse(null);
     }
 
-    public SalesManager updateSalesManager(Long id, SalesManager salesManagerDetails) {
+    public SalesManager updateSalesManagerPhone(Long id, Long phone) {
         SalesManager salesManager = getSalesManagerById(id);
         if (salesManager != null) {
-            salesManager.setName(salesManagerDetails.getName());
-            // Set other fields as necessary
+            salesManager.setPhone(phone);
             return salesManagerRepository.save(salesManager);
         }
         return null;

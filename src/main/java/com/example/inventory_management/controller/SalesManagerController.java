@@ -36,8 +36,8 @@ public class SalesManagerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SalesManager> updateSalesManager(@PathVariable Long id, @RequestBody SalesManager salesManagerDetails) {
-        SalesManager updatedSalesManager = salesManagerService.updateSalesManager(id, salesManagerDetails);
+    public ResponseEntity<SalesManager> updateSalesManagerPhone(@PathVariable Long id, @RequestBody Long phone) {
+        SalesManager updatedSalesManager = salesManagerService.updateSalesManagerPhone(id, phone);
         return updatedSalesManager != null ? new ResponseEntity<>(updatedSalesManager, HttpStatus.OK) 
                                             : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

@@ -17,14 +17,12 @@ public class SalesTransactionController {
     @Autowired
     private SalesTransactionService salesTransactionService;
 
-    // Request a sales transaction
     @PostMapping("/request")
     public ResponseEntity<SalesTransaction> requestTransaction(@RequestBody SalesTransaction transaction) {
         SalesTransaction createdTransaction = salesTransactionService.requestTransaction(transaction);
         return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
     }
 
-    // Approve a transaction
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}/approve")
     public ResponseEntity<Void> approveTransaction(@PathVariable Long id, @RequestParam int approvedQuantity) {

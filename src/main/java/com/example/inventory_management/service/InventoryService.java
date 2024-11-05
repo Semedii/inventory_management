@@ -14,30 +14,26 @@ public class InventoryService {
     @Autowired
     private InventoryItemRepository inventoryItemRepository;
 
-    // Add a new inventory item
     public InventoryItem addItem(InventoryItem item) {
         return inventoryItemRepository.save(item);
     }
 
-    // Get all inventory items
     public List<InventoryItem> getAllItems() {
         return inventoryItemRepository.findAll();
     }
 
-    // Get a specific inventory item by ID
     public Optional<InventoryItem> getItemById(Long id) {
         return inventoryItemRepository.findById(id);
     }
 
-    // Update an existing inventory item
     public InventoryItem updateItem(Long id, InventoryItem itemDetails) {
         InventoryItem item = inventoryItemRepository.findById(id).orElseThrow(() -> new RuntimeException("Item not found"));
         item.setName(itemDetails.getName());
         item.setQuantity(itemDetails.getQuantity());
+        item.setPrice(itemDetails.getPrice());
         return inventoryItemRepository.save(item);
     }
-
-    // Delete an inventory item
+    
     public void deleteItem(Long id) {
         inventoryItemRepository.deleteById(id);
     }
